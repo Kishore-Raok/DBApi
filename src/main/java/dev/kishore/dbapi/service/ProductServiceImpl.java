@@ -50,6 +50,7 @@ public class ProductServiceImpl implements ProductService{
                 productDTO.getDescription(),
                 productDTO.getPrice(),
                 productDTO.getImageUrl(),
+                productDTO.getWeight(),
                 category
         );
         product = productRepository.save(product);

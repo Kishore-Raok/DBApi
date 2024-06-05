@@ -17,7 +17,7 @@ public class ProductDTO {
     private String imageUrl;
     private String categoryName;
     private Long categoryId;// assuming you want to return the category name
-
+    private int weight;
     @Override
     public String toString() {
         return "ProductDTO{" +
