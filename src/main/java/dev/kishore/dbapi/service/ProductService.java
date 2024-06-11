@@ -1,11 +1,12 @@
 package dev.kishore.dbapi.service;
 
 import dev.kishore.dbapi.dto.ProductDTO;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
+
 
 public interface ProductService {
-    List<ProductDTO> getAllProducts();
+    Page<ProductDTO> getAllProducts(int pageNumber, int pageSize);
     ProductDTO getProductById(Long id);
     ProductDTO addProduct(ProductDTO productDTO);
     ProductDTO updateProduct(Long id, ProductDTO productDTO);
