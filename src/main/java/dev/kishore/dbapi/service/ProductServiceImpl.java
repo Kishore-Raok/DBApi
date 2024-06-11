@@ -9,6 +9,7 @@ import dev.kishore.dbapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Page<ProductDTO> getAllProducts(int pageNumber, int pageSize) {
-        Page<Product> productsPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        Page<Product> productsPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending()));
         return productsPage.map(ProductMapper::toProductDTO);
     }
 
