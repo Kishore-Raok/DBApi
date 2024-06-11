@@ -3,6 +3,7 @@ package dev.kishore.dbapi.controller;
 import dev.kishore.dbapi.dto.ProductDTO;
 import dev.kishore.dbapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<ProductDTO> getAllProducts() {
-        return productService.getAllProducts();
+    public Page<ProductDTO> getAllProducts(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return productService.getAllProducts(pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

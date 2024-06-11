@@ -7,10 +7,9 @@ import dev.kishore.dbapi.model.ProductMapper;
 import dev.kishore.dbapi.repositories.CategoryRepository;
 import dev.kishore.dbapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -21,9 +20,9 @@ public class ProductServiceImpl implements ProductService{
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<ProductDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return products.stream().map(ProductMapper::toProductDTO).collect(Collectors.toList());
+    public Page<ProductDTO> getAllProducts(int pageNumber, int pageSize) {
+        Page<Product> productsPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return productsPage.map(ProductMapper::toProductDTO);
     }
 
     @Override
