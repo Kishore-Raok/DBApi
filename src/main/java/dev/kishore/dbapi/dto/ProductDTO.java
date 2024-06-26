@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProductDTO {
     private Long id;
-    private String title;
+    private String name;
     private String description;
     private double price;
     private String imageUrl;
@@ -22,7 +22,7 @@ public class ProductDTO {
     public String toString() {
         return "ProductDTO{" +
                 "id='" + id + '\'' +
-                "title='" + title + '\'' +
+                "title='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", imageUrl='" + imageUrl + '\'' +

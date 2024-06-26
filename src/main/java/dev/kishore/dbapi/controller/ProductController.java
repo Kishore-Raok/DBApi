@@ -1,6 +1,7 @@
 package dev.kishore.dbapi.controller;
 
 import dev.kishore.dbapi.dto.ProductDTO;
+import dev.kishore.dbapi.model.Product;
 import dev.kishore.dbapi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,11 +17,10 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public Page<ProductDTO> getAllProducts(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "10") int pageSize
-    ) {
-        return productService.getAllProducts(pageNumber, pageSize);
+
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")

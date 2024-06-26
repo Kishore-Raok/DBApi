@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Override
-    Page<Product> findAll(Pageable pageable);
+
+   // Page<Product> findAll(Pageable pageable);
 }

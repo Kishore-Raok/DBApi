@@ -6,7 +6,7 @@ public class ProductMapper {
     public static ProductDTO toProductDTO(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
-        productDTO.setTitle(product.getTitle());
+        productDTO.setName(product.getTitle());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
         productDTO.setImageUrl(product.getImageUrl());
@@ -20,7 +20,7 @@ public class ProductMapper {
     public static Product toProduct(ProductDTO productDTO, Category category) {
         Product product = new Product();
         product.setId(productDTO.getId());
-        product.setTitle(productDTO.getTitle());
+        product.setTitle(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());

@@ -7,10 +7,11 @@ import dev.kishore.dbapi.model.ProductMapper;
 import dev.kishore.dbapi.repositories.CategoryRepository;
 import dev.kishore.dbapi.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -20,10 +21,13 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private CategoryRepository categoryRepository;
 
+
     @Override
-    public Page<ProductDTO> getAllProducts(int pageNumber, int pageSize) {
-        Page<Product> productsPage = productRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by("price").ascending()));
-        return productsPage.map(ProductMapper::toProductDTO);
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(ProductMapper::toProductDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -46,7 +50,7 @@ public class ProductServiceImpl implements ProductService{
         }
 
         Product product = new Product(
-                productDTO.getTitle(),
+                productDTO.getName(),
                 productDTO.getDescription(),
                 productDTO.getPrice(),
                 productDTO.getImageUrl(),
@@ -60,7 +64,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-        product.setTitle(productDTO.getTitle());
+        product.setTitle(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());
