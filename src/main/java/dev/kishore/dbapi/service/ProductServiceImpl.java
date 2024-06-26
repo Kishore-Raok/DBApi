@@ -11,6 +11,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +31,25 @@ public class ProductServiceImpl implements ProductService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Page<Product> getProducts(int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts(Optional<Integer> page, Optional<Integer> size, Optional<String> sortField, Optional<String> sortDirection) {
+        if (page.isPresent() && size.isPresent() && sortField.isPresent() && sortDirection.isPresent()) {
+            Sort sort = sortDirection.get().equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField.get()).ascending() : Sort.by(sortField.get()).descending();
+            Pageable pageable = PageRequest.of(page.get(), size.get(), sort);
+            return productRepository.findAll(pageable).stream()
+                    .map(ProductMapper::toProductDTO)
+                    .collect(Collectors.toList());
+        } else {
+            return getAllProducts();
+        }
+    }
     @Override
     public ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));

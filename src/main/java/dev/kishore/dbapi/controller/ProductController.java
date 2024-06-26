@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -16,11 +17,19 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping
-
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<ProductDTO> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+    @GetMapping()
+    public ResponseEntity<?> getAllProducts(
+            @RequestParam Optional<Integer> page,
+            @RequestParam Optional<Integer> size,
+            @RequestParam Optional<String> sortField,
+            @RequestParam Optional<String> sortDirection) {
+        if (page.isPresent() && size.isPresent() && sortField.isPresent() && sortDirection.isPresent()) {
+            Page<Product> paginatedProducts = productService.getProducts(page.get(), size.get(), sortField.get(), sortDirection.get());
+            return ResponseEntity.ok(paginatedProducts);
+        } else {
+            List<ProductDTO> products = productService.getAllProducts();
+            return ResponseEntity.ok(products);
+        }
     }
 
     @GetMapping("/{id}")
